@@ -11,7 +11,7 @@ import (
 // basicHandler est la fonction qui gère toutes les requêtes HTTP reçues par le serveur.
 func basicHandler(w http.ResponseWriter, r *http.Request) {
 	// Écriture de la réponse HTTP. Le contenu est un simple tableau d'octets représentant la chaîne.
-	_, err := w.Write([]byte("hello there!"))
+	_, err := w.Write([]byte("OK"))
 	if err != nil {
 		// Si une erreur survient lors de l'écriture, elle est loguée.
 		log.Printf("Erreur lors de l'écriture de la réponse : %v", err)
@@ -21,7 +21,7 @@ func basicHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
-	router.Get("/hello", basicHandler)
+	router.Get("/", basicHandler)
 	// Création d'une instance de serveur HTTP.
 	// Le serveur écoute sur le port 8080 et utilise basicHandler pour traiter les requêtes.
 	server := &http.Server{
