@@ -2,32 +2,38 @@ package api
 
 import (
 	"net/http"
-	employeesService "wealth-health-backend/internal/employees"
+	"time"
+	"wealth-health-backend/internal/employees"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-func loadRoutes() *chi.Mux {
+func loadRouter() *chi.Mux {
 	router := chi.NewRouter()
 
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
 	router.Use(middleware.Logger)
+	router.Use(middleware.Recoverer)
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
+	// Set a timeout value on the request context (ctx), that will signal
+	// through ctx.Done() that the request has timed out and further
+	// processing should be stopped.
+	router.Use(middleware.Timeout(60 * time.Second))
+
+	//Toutes les routes de l'api seront ici
+	router.Route("/v1", func(route chi.Router) {
+		route.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte("OK"))
+		})
+		// Ajout des routes `/v1/employees`
+		route.Route("/employees", func(r chi.Router) {
+			employees.LoadRoutes(r)
+		})
+
 	})
 
-	router.Route("/employees", loadOrderRoutes)
-
 	return router
-}
-
-func loadOrderRoutes(router chi.Router) {
-	employeeHandler := &employeesService.Employee{}
-
-	router.Post("/", employeeHandler.Create)
-	router.Get("/", employeeHandler.List)
-	router.Get("/{id}", employeeHandler.GetByID)
-	router.Put("/{id}", employeeHandler.UpdateByID)
-	router.Delete("/{id}", employeeHandler.DeleteByID)
 }

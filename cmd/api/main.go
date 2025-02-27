@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type App struct {
@@ -12,16 +13,20 @@ type App struct {
 
 func New() *App {
 	app := &App{
-		router: loadRoutes(),
+		router: loadRouter(),
 	}
 
 	return app
 }
 
 func (a *App) Start(ctx context.Context) error {
+
 	server := &http.Server{
-		Addr:    ":8080",
-		Handler: a.router,
+		Addr:         ":8080",
+		Handler:      a.router,
+		WriteTimeout: time.Second * 30,
+		ReadTimeout:  time.Second * 10,
+		IdleTimeout:  time.Minute,
 	}
 
 	err := server.ListenAndServe()

@@ -1,3 +1,3 @@
-package employeesService
+package employees
 
 type Employee struct{}
