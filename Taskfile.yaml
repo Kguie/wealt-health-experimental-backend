@@ -7,7 +7,7 @@ tasks:
 
   dev:
     cmds:
-      - go run ./main.go
+      - air
 
   test:
     cmds:
