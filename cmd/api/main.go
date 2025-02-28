@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"wealth-health-backend/pkg/env"
 )
 
 type App struct {
@@ -22,7 +23,7 @@ func New() *App {
 func (a *App) Start(ctx context.Context) error {
 
 	server := &http.Server{
-		Addr:         ":8080",
+		Addr:         env.GetString("ADDR", ":3000"),
 		Handler:      a.router,
 		WriteTimeout: time.Second * 30,
 		ReadTimeout:  time.Second * 10,
