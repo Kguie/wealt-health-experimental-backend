@@ -1,10 +1,11 @@
-package employees
+package schema
 
 import (
 	"wealth-health-backend/pkg/data"
 
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/google/uuid"
 )
 
@@ -37,4 +38,17 @@ func (Employee) Fields() []ent.Field {
 		field.Enum("state").Values(statesValues...),
 		field.String("zipCode"),
 	}
+}
+
+// Indexes
+func (Employee) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("firstName", "lastName").
+			Unique(),
+	}
+}
+
+// Edges of the Employee.
+func (Employee) Edges() []ent.Edge {
+	return nil
 }

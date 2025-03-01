@@ -3,7 +3,7 @@ package employees
 import "github.com/go-chi/chi/v5"
 
 func LoadRoutes(router chi.Router) {
-	handler := Employee{}
+	handler := EmployeeHandler{}
 
 	router.Post("/", handler.Create)
 	router.Get("/", handler.List)

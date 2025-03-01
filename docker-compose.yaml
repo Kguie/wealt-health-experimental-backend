@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: wealth-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wealth-health-api
+
+  api:
+    build: .
+    container_name: wealth-api
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_NAME}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_SSLMODE: ${POSTGRES_SSLMODE}
+    ports:
+      - "8080:8080"
+    networks:
+      - wealth-health-api
+
+volumes:
+  postgres_data:
+
+networks:
+  wealth-health-api:
