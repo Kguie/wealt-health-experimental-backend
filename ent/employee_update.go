@@ -188,14 +188,39 @@ func (eu *EmployeeUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (eu *EmployeeUpdate) check() error {
+	if v, ok := eu.mutation.FirstName(); ok {
+		if err := employee.FirstNameValidator(v); err != nil {
+			return &ValidationError{Name: "firstName", err: fmt.Errorf(`ent: validator failed for field "Employee.firstName": %w`, err)}
+		}
+	}
+	if v, ok := eu.mutation.LastName(); ok {
+		if err := employee.LastNameValidator(v); err != nil {
+			return &ValidationError{Name: "lastName", err: fmt.Errorf(`ent: validator failed for field "Employee.lastName": %w`, err)}
+		}
+	}
 	if v, ok := eu.mutation.Department(); ok {
 		if err := employee.DepartmentValidator(v); err != nil {
 			return &ValidationError{Name: "department", err: fmt.Errorf(`ent: validator failed for field "Employee.department": %w`, err)}
 		}
 	}
+	if v, ok := eu.mutation.Street(); ok {
+		if err := employee.StreetValidator(v); err != nil {
+			return &ValidationError{Name: "street", err: fmt.Errorf(`ent: validator failed for field "Employee.street": %w`, err)}
+		}
+	}
+	if v, ok := eu.mutation.City(); ok {
+		if err := employee.CityValidator(v); err != nil {
+			return &ValidationError{Name: "city", err: fmt.Errorf(`ent: validator failed for field "Employee.city": %w`, err)}
+		}
+	}
 	if v, ok := eu.mutation.State(); ok {
 		if err := employee.StateValidator(v); err != nil {
 			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "Employee.state": %w`, err)}
+		}
+	}
+	if v, ok := eu.mutation.ZipCode(); ok {
+		if err := employee.ZipCodeValidator(v); err != nil {
+			return &ValidationError{Name: "zipCode", err: fmt.Errorf(`ent: validator failed for field "Employee.zipCode": %w`, err)}
 		}
 	}
 	return nil
@@ -433,14 +458,39 @@ func (euo *EmployeeUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (euo *EmployeeUpdateOne) check() error {
+	if v, ok := euo.mutation.FirstName(); ok {
+		if err := employee.FirstNameValidator(v); err != nil {
+			return &ValidationError{Name: "firstName", err: fmt.Errorf(`ent: validator failed for field "Employee.firstName": %w`, err)}
+		}
+	}
+	if v, ok := euo.mutation.LastName(); ok {
+		if err := employee.LastNameValidator(v); err != nil {
+			return &ValidationError{Name: "lastName", err: fmt.Errorf(`ent: validator failed for field "Employee.lastName": %w`, err)}
+		}
+	}
 	if v, ok := euo.mutation.Department(); ok {
 		if err := employee.DepartmentValidator(v); err != nil {
 			return &ValidationError{Name: "department", err: fmt.Errorf(`ent: validator failed for field "Employee.department": %w`, err)}
 		}
 	}
+	if v, ok := euo.mutation.Street(); ok {
+		if err := employee.StreetValidator(v); err != nil {
+			return &ValidationError{Name: "street", err: fmt.Errorf(`ent: validator failed for field "Employee.street": %w`, err)}
+		}
+	}
+	if v, ok := euo.mutation.City(); ok {
+		if err := employee.CityValidator(v); err != nil {
+			return &ValidationError{Name: "city", err: fmt.Errorf(`ent: validator failed for field "Employee.city": %w`, err)}
+		}
+	}
 	if v, ok := euo.mutation.State(); ok {
 		if err := employee.StateValidator(v); err != nil {
 			return &ValidationError{Name: "state", err: fmt.Errorf(`ent: validator failed for field "Employee.state": %w`, err)}
+		}
+	}
+	if v, ok := euo.mutation.ZipCode(); ok {
+		if err := employee.ZipCodeValidator(v); err != nil {
+			return &ValidationError{Name: "zipCode", err: fmt.Errorf(`ent: validator failed for field "Employee.zipCode": %w`, err)}
 		}
 	}
 	return nil

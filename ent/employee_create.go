@@ -118,8 +118,18 @@ func (ec *EmployeeCreate) check() error {
 	if _, ok := ec.mutation.FirstName(); !ok {
 		return &ValidationError{Name: "firstName", err: errors.New(`ent: missing required field "Employee.firstName"`)}
 	}
+	if v, ok := ec.mutation.FirstName(); ok {
+		if err := employee.FirstNameValidator(v); err != nil {
+			return &ValidationError{Name: "firstName", err: fmt.Errorf(`ent: validator failed for field "Employee.firstName": %w`, err)}
+		}
+	}
 	if _, ok := ec.mutation.LastName(); !ok {
 		return &ValidationError{Name: "lastName", err: errors.New(`ent: missing required field "Employee.lastName"`)}
+	}
+	if v, ok := ec.mutation.LastName(); ok {
+		if err := employee.LastNameValidator(v); err != nil {
+			return &ValidationError{Name: "lastName", err: fmt.Errorf(`ent: validator failed for field "Employee.lastName": %w`, err)}
+		}
 	}
 	if _, ok := ec.mutation.DateOfBirth(); !ok {
 		return &ValidationError{Name: "dateOfBirth", err: errors.New(`ent: missing required field "Employee.dateOfBirth"`)}
@@ -138,8 +148,18 @@ func (ec *EmployeeCreate) check() error {
 	if _, ok := ec.mutation.Street(); !ok {
 		return &ValidationError{Name: "street", err: errors.New(`ent: missing required field "Employee.street"`)}
 	}
+	if v, ok := ec.mutation.Street(); ok {
+		if err := employee.StreetValidator(v); err != nil {
+			return &ValidationError{Name: "street", err: fmt.Errorf(`ent: validator failed for field "Employee.street": %w`, err)}
+		}
+	}
 	if _, ok := ec.mutation.City(); !ok {
 		return &ValidationError{Name: "city", err: errors.New(`ent: missing required field "Employee.city"`)}
+	}
+	if v, ok := ec.mutation.City(); ok {
+		if err := employee.CityValidator(v); err != nil {
+			return &ValidationError{Name: "city", err: fmt.Errorf(`ent: validator failed for field "Employee.city": %w`, err)}
+		}
 	}
 	if _, ok := ec.mutation.State(); !ok {
 		return &ValidationError{Name: "state", err: errors.New(`ent: missing required field "Employee.state"`)}
@@ -151,6 +171,11 @@ func (ec *EmployeeCreate) check() error {
 	}
 	if _, ok := ec.mutation.ZipCode(); !ok {
 		return &ValidationError{Name: "zipCode", err: errors.New(`ent: missing required field "Employee.zipCode"`)}
+	}
+	if v, ok := ec.mutation.ZipCode(); ok {
+		if err := employee.ZipCodeValidator(v); err != nil {
+			return &ValidationError{Name: "zipCode", err: fmt.Errorf(`ent: validator failed for field "Employee.zipCode": %w`, err)}
+		}
 	}
 	return nil
 }

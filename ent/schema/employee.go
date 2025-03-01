@@ -27,16 +27,16 @@ func (Employee) Fields() []ent.Field {
 	}
 
 	return []ent.Field{
-		field.UUID("id", uuid.UUID{}),
-		field.String("firstName"),
-		field.String("lastName"),
+		field.UUID("id", uuid.UUID{}).Immutable(),
+		field.String("firstName").NotEmpty(),
+		field.String("lastName").NotEmpty(),
 		field.Time("dateOfBirth"),
 		field.Time("startDate"),
 		field.Enum("department").Values(departmentsValues...),
-		field.String("street"),
-		field.String("city"),
+		field.String("street").NotEmpty(),
+		field.String("city").NotEmpty(),
 		field.Enum("state").Values(statesValues...),
-		field.String("zipCode"),
+		field.String("zipCode").NotEmpty(),
 	}
 }
 

@@ -59,6 +59,19 @@ func ValidColumn(column string) bool {
 	return false
 }
 
+var (
+	// FirstNameValidator is a validator for the "firstName" field. It is called by the builders before save.
+	FirstNameValidator func(string) error
+	// LastNameValidator is a validator for the "lastName" field. It is called by the builders before save.
+	LastNameValidator func(string) error
+	// StreetValidator is a validator for the "street" field. It is called by the builders before save.
+	StreetValidator func(string) error
+	// CityValidator is a validator for the "city" field. It is called by the builders before save.
+	CityValidator func(string) error
+	// ZipCodeValidator is a validator for the "zipCode" field. It is called by the builders before save.
+	ZipCodeValidator func(string) error
+)
+
 // Department defines the type for the "department" enum field.
 type Department string
 
