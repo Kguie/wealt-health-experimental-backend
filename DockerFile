@@ -1,30 +1,33 @@
-# Utiliser l'image officielle de Go
-FROM golang:1.21 AS builder
-
-# Définir le répertoire de travail à l'intérieur du conteneur
-WORKDIR /app
-
-# Copier les fichiers nécessaires pour le build
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copier le reste des fichiers de l'application
-COPY . .
-
-# Compiler l'application en un binaire
-RUN go build -o api ./main.go 
-
-# ---- Phase d'exécution ----
-FROM debian:bullseye-slim
+# ---- Build Stage ----
+FROM golang:1.24 AS builder
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le binaire compilé depuis l'étape précédente
+# Activer le proxy Go pour éviter des problèmes de téléchargement
+ENV GOPROXY=https://proxy.golang.org,direct
+
+# Copier et télécharger les dépendances
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copier le reste des fichiers
+COPY . .
+
+# Compiler l'application avec une version statique de glibc
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api ./*.go
+
+# ---- Final Stage ----
+FROM alpine:latest
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier le binaire Go compilé depuis l’étape précédente
 COPY --from=builder /app/api /app/api
 
-# Exposer le port sur lequel l'API écoute
+# Exposer le port
 EXPOSE 8080
 
-# Définir la commande de démarrage
+# Démarrer l’application
 CMD ["/app/api"]
