@@ -1,33 +1,52 @@
 # ---- Build Stage ----
 FROM golang:1.24 AS builder
 
-# Définir le répertoire de travail
 WORKDIR /app
 
 # Activer le proxy Go pour éviter des problèmes de téléchargement
 ENV GOPROXY=https://proxy.golang.org,direct
 
-# Copier et télécharger les dépendances
+# Copier les fichiers nécessaires pour le build
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copier le reste des fichiers
+# Copier tout le code source
 COPY . .
 
-# Compiler l'application avec une version statique de glibc
+# Compiler le binaire Go pour la production (sans air)
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o api ./*.go
 
-# ---- Final Stage ----
-FROM alpine:latest
+# ---- Development Stage ----
+FROM golang:1.24 AS dev
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Copier le binaire Go compilé depuis l’étape précédente
+# Installer les dépendances système pour le hot-reload
+RUN apt-get update && apt-get install -y inotify-tools
+
+# Installer air avec version précise
+RUN go install github.com/cosmtrek/air@v1.49.0
+
+# Créer le dossier tmp à l'avance
+RUN mkdir -p /app/tmp
+
+# Copier la config air AVANT le code
+COPY .air.toml .
+COPY . .
+
+# Exécuter `air` pour le hot-reload en dev
+CMD ["air", "-c", ".air.toml"]
+
+# ---- Production Stage ----
+FROM alpine:latest AS prod
+
+WORKDIR /app
+
+# Copier uniquement le binaire compilé depuis la phase builder (sans air)
 COPY --from=builder /app/api /app/api
 
 # Exposer le port
 EXPOSE 8080
 
-# Démarrer l’application
+# Exécuter l'API en mode production
 CMD ["/app/api"]

@@ -17,12 +17,8 @@ services:
   api:
     build:
       context: .
-      target: dev # ✅ Utilisation du mode développement avec `air`
-    command: air -c .air.toml # ✅ Utilisation d'air pour le hot-reload
-    volumes:
-      - .:/app
-
-    container_name: wealth-api
+      target: prod # ✅ Utilisation du mode production (binaire compilé)
+    container_name: wealth-api-prod
     restart: always
     depends_on:
       - postgres
@@ -39,9 +35,3 @@ services:
       - "8080:8080"
     networks:
       - wealth-health-api
-
-volumes:
-  postgres_data:
-
-networks:
-  wealth-health-api:
