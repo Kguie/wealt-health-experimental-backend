@@ -1,9 +1,13 @@
 package employees
 
-import "github.com/go-chi/chi/v5"
+import (
+	"wealth-health-backend/ent"
 
-func LoadRoutes(router chi.Router) {
-	handler := EmployeeHandler{}
+	"github.com/go-chi/chi/v5"
+)
+
+func LoadRoutes(router chi.Router, client *ent.Client) {
+	handler := NewEmployeeHandler(client)
 
 	router.Post("/", handler.Create)
 	router.Get("/", handler.List)

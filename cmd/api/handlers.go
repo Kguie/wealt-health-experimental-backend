@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 	"wealth-health-backend/internal/employees"
+	db "wealth-health-backend/pkg/db/postgres"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -30,7 +31,7 @@ func loadRouter() *chi.Mux {
 		})
 		// Ajout des routes `/v1/employees`
 		route.Route("/employees", func(r chi.Router) {
-			employees.LoadRoutes(r)
+			employees.LoadRoutes(r, db.Client)
 		})
 
 	})
