@@ -103,7 +103,7 @@ func (employee *EmployeeHandler) DeleteByID(ctx context.Context, id uuid.UUID) (
 	if err != nil {
 		return nil, fmt.Errorf("❌ Erreur lors de la suppression:  %w", err)
 	}
-	response := map[string]string{"message": "L'employé a été ajouté avec succès."}
+	response := map[string]string{"message": "L'employé a été supprimé avec succès."}
 	return response, nil
 }
 
