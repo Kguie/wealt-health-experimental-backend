@@ -85,15 +85,15 @@ func (eu *EmployeeUpdate) SetNillableStartDate(t *time.Time) *EmployeeUpdate {
 }
 
 // SetDepartment sets the "department" field.
-func (eu *EmployeeUpdate) SetDepartment(e employee.Department) *EmployeeUpdate {
-	eu.mutation.SetDepartment(e)
+func (eu *EmployeeUpdate) SetDepartment(s string) *EmployeeUpdate {
+	eu.mutation.SetDepartment(s)
 	return eu
 }
 
 // SetNillableDepartment sets the "department" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableDepartment(e *employee.Department) *EmployeeUpdate {
-	if e != nil {
-		eu.SetDepartment(*e)
+func (eu *EmployeeUpdate) SetNillableDepartment(s *string) *EmployeeUpdate {
+	if s != nil {
+		eu.SetDepartment(*s)
 	}
 	return eu
 }
@@ -127,15 +127,15 @@ func (eu *EmployeeUpdate) SetNillableCity(s *string) *EmployeeUpdate {
 }
 
 // SetState sets the "state" field.
-func (eu *EmployeeUpdate) SetState(e employee.State) *EmployeeUpdate {
-	eu.mutation.SetState(e)
+func (eu *EmployeeUpdate) SetState(s string) *EmployeeUpdate {
+	eu.mutation.SetState(s)
 	return eu
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (eu *EmployeeUpdate) SetNillableState(e *employee.State) *EmployeeUpdate {
-	if e != nil {
-		eu.SetState(*e)
+func (eu *EmployeeUpdate) SetNillableState(s *string) *EmployeeUpdate {
+	if s != nil {
+		eu.SetState(*s)
 	}
 	return eu
 }
@@ -251,7 +251,7 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(employee.FieldStartDate, field.TypeTime, value)
 	}
 	if value, ok := eu.mutation.Department(); ok {
-		_spec.SetField(employee.FieldDepartment, field.TypeEnum, value)
+		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 	}
 	if value, ok := eu.mutation.Street(); ok {
 		_spec.SetField(employee.FieldStreet, field.TypeString, value)
@@ -260,7 +260,7 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(employee.FieldCity, field.TypeString, value)
 	}
 	if value, ok := eu.mutation.State(); ok {
-		_spec.SetField(employee.FieldState, field.TypeEnum, value)
+		_spec.SetField(employee.FieldState, field.TypeString, value)
 	}
 	if value, ok := eu.mutation.ZipCode(); ok {
 		_spec.SetField(employee.FieldZipCode, field.TypeString, value)
@@ -342,15 +342,15 @@ func (euo *EmployeeUpdateOne) SetNillableStartDate(t *time.Time) *EmployeeUpdate
 }
 
 // SetDepartment sets the "department" field.
-func (euo *EmployeeUpdateOne) SetDepartment(e employee.Department) *EmployeeUpdateOne {
-	euo.mutation.SetDepartment(e)
+func (euo *EmployeeUpdateOne) SetDepartment(s string) *EmployeeUpdateOne {
+	euo.mutation.SetDepartment(s)
 	return euo
 }
 
 // SetNillableDepartment sets the "department" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableDepartment(e *employee.Department) *EmployeeUpdateOne {
-	if e != nil {
-		euo.SetDepartment(*e)
+func (euo *EmployeeUpdateOne) SetNillableDepartment(s *string) *EmployeeUpdateOne {
+	if s != nil {
+		euo.SetDepartment(*s)
 	}
 	return euo
 }
@@ -384,15 +384,15 @@ func (euo *EmployeeUpdateOne) SetNillableCity(s *string) *EmployeeUpdateOne {
 }
 
 // SetState sets the "state" field.
-func (euo *EmployeeUpdateOne) SetState(e employee.State) *EmployeeUpdateOne {
-	euo.mutation.SetState(e)
+func (euo *EmployeeUpdateOne) SetState(s string) *EmployeeUpdateOne {
+	euo.mutation.SetState(s)
 	return euo
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (euo *EmployeeUpdateOne) SetNillableState(e *employee.State) *EmployeeUpdateOne {
-	if e != nil {
-		euo.SetState(*e)
+func (euo *EmployeeUpdateOne) SetNillableState(s *string) *EmployeeUpdateOne {
+	if s != nil {
+		euo.SetState(*s)
 	}
 	return euo
 }
@@ -538,7 +538,7 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 		_spec.SetField(employee.FieldStartDate, field.TypeTime, value)
 	}
 	if value, ok := euo.mutation.Department(); ok {
-		_spec.SetField(employee.FieldDepartment, field.TypeEnum, value)
+		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 	}
 	if value, ok := euo.mutation.Street(); ok {
 		_spec.SetField(employee.FieldStreet, field.TypeString, value)
@@ -547,7 +547,7 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 		_spec.SetField(employee.FieldCity, field.TypeString, value)
 	}
 	if value, ok := euo.mutation.State(); ok {
-		_spec.SetField(employee.FieldState, field.TypeEnum, value)
+		_spec.SetField(employee.FieldState, field.TypeString, value)
 	}
 	if value, ok := euo.mutation.ZipCode(); ok {
 		_spec.SetField(employee.FieldZipCode, field.TypeString, value)

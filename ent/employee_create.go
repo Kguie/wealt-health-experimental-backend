@@ -46,8 +46,8 @@ func (ec *EmployeeCreate) SetStartDate(t time.Time) *EmployeeCreate {
 }
 
 // SetDepartment sets the "department" field.
-func (ec *EmployeeCreate) SetDepartment(e employee.Department) *EmployeeCreate {
-	ec.mutation.SetDepartment(e)
+func (ec *EmployeeCreate) SetDepartment(s string) *EmployeeCreate {
+	ec.mutation.SetDepartment(s)
 	return ec
 }
 
@@ -64,8 +64,8 @@ func (ec *EmployeeCreate) SetCity(s string) *EmployeeCreate {
 }
 
 // SetState sets the "state" field.
-func (ec *EmployeeCreate) SetState(e employee.State) *EmployeeCreate {
-	ec.mutation.SetState(e)
+func (ec *EmployeeCreate) SetState(s string) *EmployeeCreate {
+	ec.mutation.SetState(s)
 	return ec
 }
 
@@ -81,6 +81,14 @@ func (ec *EmployeeCreate) SetID(u uuid.UUID) *EmployeeCreate {
 	return ec
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (ec *EmployeeCreate) SetNillableID(u *uuid.UUID) *EmployeeCreate {
+	if u != nil {
+		ec.SetID(*u)
+	}
+	return ec
+}
+
 // Mutation returns the EmployeeMutation object of the builder.
 func (ec *EmployeeCreate) Mutation() *EmployeeMutation {
 	return ec.mutation
@@ -88,6 +96,7 @@ func (ec *EmployeeCreate) Mutation() *EmployeeMutation {
 
 // Save creates the Employee in the database.
 func (ec *EmployeeCreate) Save(ctx context.Context) (*Employee, error) {
+	ec.defaults()
 	return withHooks(ctx, ec.sqlSave, ec.mutation, ec.hooks)
 }
 
@@ -110,6 +119,14 @@ func (ec *EmployeeCreate) Exec(ctx context.Context) error {
 func (ec *EmployeeCreate) ExecX(ctx context.Context) {
 	if err := ec.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (ec *EmployeeCreate) defaults() {
+	if _, ok := ec.mutation.ID(); !ok {
+		v := employee.DefaultID()
+		ec.mutation.SetID(v)
 	}
 }
 
@@ -229,7 +246,7 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 		_node.StartDate = value
 	}
 	if value, ok := ec.mutation.Department(); ok {
-		_spec.SetField(employee.FieldDepartment, field.TypeEnum, value)
+		_spec.SetField(employee.FieldDepartment, field.TypeString, value)
 		_node.Department = value
 	}
 	if value, ok := ec.mutation.Street(); ok {
@@ -241,7 +258,7 @@ func (ec *EmployeeCreate) createSpec() (*Employee, *sqlgraph.CreateSpec) {
 		_node.City = value
 	}
 	if value, ok := ec.mutation.State(); ok {
-		_spec.SetField(employee.FieldState, field.TypeEnum, value)
+		_spec.SetField(employee.FieldState, field.TypeString, value)
 		_node.State = value
 	}
 	if value, ok := ec.mutation.ZipCode(); ok {
@@ -269,6 +286,7 @@ func (ecb *EmployeeCreateBulk) Save(ctx context.Context) ([]*Employee, error) {
 	for i := range ecb.builders {
 		func(i int, root context.Context) {
 			builder := ecb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*EmployeeMutation)
 				if !ok {

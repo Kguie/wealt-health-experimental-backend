@@ -75,6 +75,11 @@ func StartDate(v time.Time) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldStartDate, v))
 }
 
+// Department applies equality check predicate on the "department" field. It's identical to DepartmentEQ.
+func Department(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEQ(FieldDepartment, v))
+}
+
 // Street applies equality check predicate on the "street" field. It's identical to StreetEQ.
 func Street(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldStreet, v))
@@ -83,6 +88,11 @@ func Street(v string) predicate.Employee {
 // City applies equality check predicate on the "city" field. It's identical to CityEQ.
 func City(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldCity, v))
+}
+
+// State applies equality check predicate on the "state" field. It's identical to StateEQ.
+func State(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEQ(FieldState, v))
 }
 
 // ZipCode applies equality check predicate on the "zipCode" field. It's identical to ZipCodeEQ.
@@ -301,23 +311,68 @@ func StartDateLTE(v time.Time) predicate.Employee {
 }
 
 // DepartmentEQ applies the EQ predicate on the "department" field.
-func DepartmentEQ(v Department) predicate.Employee {
+func DepartmentEQ(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldDepartment, v))
 }
 
 // DepartmentNEQ applies the NEQ predicate on the "department" field.
-func DepartmentNEQ(v Department) predicate.Employee {
+func DepartmentNEQ(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldNEQ(FieldDepartment, v))
 }
 
 // DepartmentIn applies the In predicate on the "department" field.
-func DepartmentIn(vs ...Department) predicate.Employee {
+func DepartmentIn(vs ...string) predicate.Employee {
 	return predicate.Employee(sql.FieldIn(FieldDepartment, vs...))
 }
 
 // DepartmentNotIn applies the NotIn predicate on the "department" field.
-func DepartmentNotIn(vs ...Department) predicate.Employee {
+func DepartmentNotIn(vs ...string) predicate.Employee {
 	return predicate.Employee(sql.FieldNotIn(FieldDepartment, vs...))
+}
+
+// DepartmentGT applies the GT predicate on the "department" field.
+func DepartmentGT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGT(FieldDepartment, v))
+}
+
+// DepartmentGTE applies the GTE predicate on the "department" field.
+func DepartmentGTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGTE(FieldDepartment, v))
+}
+
+// DepartmentLT applies the LT predicate on the "department" field.
+func DepartmentLT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLT(FieldDepartment, v))
+}
+
+// DepartmentLTE applies the LTE predicate on the "department" field.
+func DepartmentLTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLTE(FieldDepartment, v))
+}
+
+// DepartmentContains applies the Contains predicate on the "department" field.
+func DepartmentContains(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContains(FieldDepartment, v))
+}
+
+// DepartmentHasPrefix applies the HasPrefix predicate on the "department" field.
+func DepartmentHasPrefix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasPrefix(FieldDepartment, v))
+}
+
+// DepartmentHasSuffix applies the HasSuffix predicate on the "department" field.
+func DepartmentHasSuffix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasSuffix(FieldDepartment, v))
+}
+
+// DepartmentEqualFold applies the EqualFold predicate on the "department" field.
+func DepartmentEqualFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEqualFold(FieldDepartment, v))
+}
+
+// DepartmentContainsFold applies the ContainsFold predicate on the "department" field.
+func DepartmentContainsFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContainsFold(FieldDepartment, v))
 }
 
 // StreetEQ applies the EQ predicate on the "street" field.
@@ -451,23 +506,68 @@ func CityContainsFold(v string) predicate.Employee {
 }
 
 // StateEQ applies the EQ predicate on the "state" field.
-func StateEQ(v State) predicate.Employee {
+func StateEQ(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldEQ(FieldState, v))
 }
 
 // StateNEQ applies the NEQ predicate on the "state" field.
-func StateNEQ(v State) predicate.Employee {
+func StateNEQ(v string) predicate.Employee {
 	return predicate.Employee(sql.FieldNEQ(FieldState, v))
 }
 
 // StateIn applies the In predicate on the "state" field.
-func StateIn(vs ...State) predicate.Employee {
+func StateIn(vs ...string) predicate.Employee {
 	return predicate.Employee(sql.FieldIn(FieldState, vs...))
 }
 
 // StateNotIn applies the NotIn predicate on the "state" field.
-func StateNotIn(vs ...State) predicate.Employee {
+func StateNotIn(vs ...string) predicate.Employee {
 	return predicate.Employee(sql.FieldNotIn(FieldState, vs...))
+}
+
+// StateGT applies the GT predicate on the "state" field.
+func StateGT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGT(FieldState, v))
+}
+
+// StateGTE applies the GTE predicate on the "state" field.
+func StateGTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldGTE(FieldState, v))
+}
+
+// StateLT applies the LT predicate on the "state" field.
+func StateLT(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLT(FieldState, v))
+}
+
+// StateLTE applies the LTE predicate on the "state" field.
+func StateLTE(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldLTE(FieldState, v))
+}
+
+// StateContains applies the Contains predicate on the "state" field.
+func StateContains(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContains(FieldState, v))
+}
+
+// StateHasPrefix applies the HasPrefix predicate on the "state" field.
+func StateHasPrefix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasPrefix(FieldState, v))
+}
+
+// StateHasSuffix applies the HasSuffix predicate on the "state" field.
+func StateHasSuffix(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldHasSuffix(FieldState, v))
+}
+
+// StateEqualFold applies the EqualFold predicate on the "state" field.
+func StateEqualFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldEqualFold(FieldState, v))
+}
+
+// StateContainsFold applies the ContainsFold predicate on the "state" field.
+func StateContainsFold(v string) predicate.Employee {
+	return predicate.Employee(sql.FieldContainsFold(FieldState, v))
 }
 
 // ZipCodeEQ applies the EQ predicate on the "zipCode" field.

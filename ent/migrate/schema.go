@@ -15,10 +15,10 @@ var (
 		{Name: "last_name", Type: field.TypeString},
 		{Name: "date_of_birth", Type: field.TypeTime},
 		{Name: "start_date", Type: field.TypeTime},
-		{Name: "department", Type: field.TypeEnum, Enums: []string{"Sales", "Marketing", "Engineering", "Human Resources", "Legal"}},
+		{Name: "department", Type: field.TypeString},
 		{Name: "street", Type: field.TypeString},
 		{Name: "city", Type: field.TypeString},
-		{Name: "state", Type: field.TypeEnum, Enums: []string{"AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"}},
+		{Name: "state", Type: field.TypeString},
 		{Name: "zip_code", Type: field.TypeString},
 	}
 	// EmployeesTable holds the schema information for the "employees" table.

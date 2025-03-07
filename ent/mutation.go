@@ -38,10 +38,10 @@ type EmployeeMutation struct {
 	lastName      *string
 	dateOfBirth   *time.Time
 	startDate     *time.Time
-	department    *employee.Department
+	department    *string
 	street        *string
 	city          *string
-	state         *employee.State
+	state         *string
 	zipCode       *string
 	clearedFields map[string]struct{}
 	done          bool
@@ -298,12 +298,12 @@ func (m *EmployeeMutation) ResetStartDate() {
 }
 
 // SetDepartment sets the "department" field.
-func (m *EmployeeMutation) SetDepartment(e employee.Department) {
-	m.department = &e
+func (m *EmployeeMutation) SetDepartment(s string) {
+	m.department = &s
 }
 
 // Department returns the value of the "department" field in the mutation.
-func (m *EmployeeMutation) Department() (r employee.Department, exists bool) {
+func (m *EmployeeMutation) Department() (r string, exists bool) {
 	v := m.department
 	if v == nil {
 		return
@@ -314,7 +314,7 @@ func (m *EmployeeMutation) Department() (r employee.Department, exists bool) {
 // OldDepartment returns the old "department" field's value of the Employee entity.
 // If the Employee object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *EmployeeMutation) OldDepartment(ctx context.Context) (v employee.Department, err error) {
+func (m *EmployeeMutation) OldDepartment(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDepartment is only allowed on UpdateOne operations")
 	}
@@ -406,12 +406,12 @@ func (m *EmployeeMutation) ResetCity() {
 }
 
 // SetState sets the "state" field.
-func (m *EmployeeMutation) SetState(e employee.State) {
-	m.state = &e
+func (m *EmployeeMutation) SetState(s string) {
+	m.state = &s
 }
 
 // State returns the value of the "state" field in the mutation.
-func (m *EmployeeMutation) State() (r employee.State, exists bool) {
+func (m *EmployeeMutation) State() (r string, exists bool) {
 	v := m.state
 	if v == nil {
 		return
@@ -422,7 +422,7 @@ func (m *EmployeeMutation) State() (r employee.State, exists bool) {
 // OldState returns the old "state" field's value of the Employee entity.
 // If the Employee object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *EmployeeMutation) OldState(ctx context.Context) (v employee.State, err error) {
+func (m *EmployeeMutation) OldState(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldState is only allowed on UpdateOne operations")
 	}
@@ -630,7 +630,7 @@ func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
 		m.SetStartDate(v)
 		return nil
 	case employee.FieldDepartment:
-		v, ok := value.(employee.Department)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -651,7 +651,7 @@ func (m *EmployeeMutation) SetField(name string, value ent.Value) error {
 		m.SetCity(v)
 		return nil
 	case employee.FieldState:
-		v, ok := value.(employee.State)
+		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

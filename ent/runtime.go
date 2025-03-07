@@ -5,6 +5,8 @@ package ent
 import (
 	"wealth-health-backend/ent/employee"
 	"wealth-health-backend/ent/schema"
+
+	"github.com/google/uuid"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -21,6 +23,10 @@ func init() {
 	employeeDescLastName := employeeFields[2].Descriptor()
 	// employee.LastNameValidator is a validator for the "lastName" field. It is called by the builders before save.
 	employee.LastNameValidator = employeeDescLastName.Validators[0].(func(string) error)
+	// employeeDescDepartment is the schema descriptor for department field.
+	employeeDescDepartment := employeeFields[5].Descriptor()
+	// employee.DepartmentValidator is a validator for the "department" field. It is called by the builders before save.
+	employee.DepartmentValidator = employeeDescDepartment.Validators[0].(func(string) error)
 	// employeeDescStreet is the schema descriptor for street field.
 	employeeDescStreet := employeeFields[6].Descriptor()
 	// employee.StreetValidator is a validator for the "street" field. It is called by the builders before save.
@@ -29,8 +35,16 @@ func init() {
 	employeeDescCity := employeeFields[7].Descriptor()
 	// employee.CityValidator is a validator for the "city" field. It is called by the builders before save.
 	employee.CityValidator = employeeDescCity.Validators[0].(func(string) error)
+	// employeeDescState is the schema descriptor for state field.
+	employeeDescState := employeeFields[8].Descriptor()
+	// employee.StateValidator is a validator for the "state" field. It is called by the builders before save.
+	employee.StateValidator = employeeDescState.Validators[0].(func(string) error)
 	// employeeDescZipCode is the schema descriptor for zipCode field.
 	employeeDescZipCode := employeeFields[9].Descriptor()
 	// employee.ZipCodeValidator is a validator for the "zipCode" field. It is called by the builders before save.
 	employee.ZipCodeValidator = employeeDescZipCode.Validators[0].(func(string) error)
+	// employeeDescID is the schema descriptor for id field.
+	employeeDescID := employeeFields[0].Descriptor()
+	// employee.DefaultID holds the default value on creation for the id field.
+	employee.DefaultID = employeeDescID.Default.(func() uuid.UUID)
 }

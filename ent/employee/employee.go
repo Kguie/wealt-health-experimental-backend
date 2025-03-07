@@ -3,9 +3,8 @@
 package employee
 
 import (
-	"fmt"
-
 	"entgo.io/ent/dialect/sql"
+	"github.com/google/uuid"
 )
 
 const (
@@ -64,119 +63,19 @@ var (
 	FirstNameValidator func(string) error
 	// LastNameValidator is a validator for the "lastName" field. It is called by the builders before save.
 	LastNameValidator func(string) error
+	// DepartmentValidator is a validator for the "department" field. It is called by the builders before save.
+	DepartmentValidator func(string) error
 	// StreetValidator is a validator for the "street" field. It is called by the builders before save.
 	StreetValidator func(string) error
 	// CityValidator is a validator for the "city" field. It is called by the builders before save.
 	CityValidator func(string) error
+	// StateValidator is a validator for the "state" field. It is called by the builders before save.
+	StateValidator func(string) error
 	// ZipCodeValidator is a validator for the "zipCode" field. It is called by the builders before save.
 	ZipCodeValidator func(string) error
+	// DefaultID holds the default value on creation for the "id" field.
+	DefaultID func() uuid.UUID
 )
-
-// Department defines the type for the "department" enum field.
-type Department string
-
-// Department values.
-const (
-	DepartmentSales          Department = "Sales"
-	DepartmentMarketing      Department = "Marketing"
-	DepartmentEngineering    Department = "Engineering"
-	DepartmentHumanResources Department = "Human Resources"
-	DepartmentLegal          Department = "Legal"
-)
-
-func (d Department) String() string {
-	return string(d)
-}
-
-// DepartmentValidator is a validator for the "department" field enum values. It is called by the builders before save.
-func DepartmentValidator(d Department) error {
-	switch d {
-	case DepartmentSales, DepartmentMarketing, DepartmentEngineering, DepartmentHumanResources, DepartmentLegal:
-		return nil
-	default:
-		return fmt.Errorf("employee: invalid enum value for department field: %q", d)
-	}
-}
-
-// State defines the type for the "state" enum field.
-type State string
-
-// State values.
-const (
-	StateAL State = "AL"
-	StateAK State = "AK"
-	StateAS State = "AS"
-	StateAZ State = "AZ"
-	StateAR State = "AR"
-	StateCA State = "CA"
-	StateCO State = "CO"
-	StateCT State = "CT"
-	StateDE State = "DE"
-	StateDC State = "DC"
-	StateFM State = "FM"
-	StateFL State = "FL"
-	StateGA State = "GA"
-	StateGU State = "GU"
-	StateHI State = "HI"
-	StateID State = "ID"
-	StateIL State = "IL"
-	StateIN State = "IN"
-	StateIA State = "IA"
-	StateKS State = "KS"
-	StateKY State = "KY"
-	StateLA State = "LA"
-	StateME State = "ME"
-	StateMH State = "MH"
-	StateMD State = "MD"
-	StateMA State = "MA"
-	StateMI State = "MI"
-	StateMN State = "MN"
-	StateMS State = "MS"
-	StateMO State = "MO"
-	StateMT State = "MT"
-	StateNE State = "NE"
-	StateNV State = "NV"
-	StateNH State = "NH"
-	StateNJ State = "NJ"
-	StateNM State = "NM"
-	StateNY State = "NY"
-	StateNC State = "NC"
-	StateND State = "ND"
-	StateMP State = "MP"
-	StateOH State = "OH"
-	StateOK State = "OK"
-	StateOR State = "OR"
-	StatePW State = "PW"
-	StatePA State = "PA"
-	StatePR State = "PR"
-	StateRI State = "RI"
-	StateSC State = "SC"
-	StateSD State = "SD"
-	StateTN State = "TN"
-	StateTX State = "TX"
-	StateUT State = "UT"
-	StateVT State = "VT"
-	StateVI State = "VI"
-	StateVA State = "VA"
-	StateWA State = "WA"
-	StateWV State = "WV"
-	StateWI State = "WI"
-	StateWY State = "WY"
-)
-
-func (s State) String() string {
-	return string(s)
-}
-
-// StateValidator is a validator for the "state" field enum values. It is called by the builders before save.
-func StateValidator(s State) error {
-	switch s {
-	case StateAL, StateAK, StateAS, StateAZ, StateAR, StateCA, StateCO, StateCT, StateDE, StateDC, StateFM, StateFL, StateGA, StateGU, StateHI, StateID, StateIL, StateIN, StateIA, StateKS, StateKY, StateLA, StateME, StateMH, StateMD, StateMA, StateMI, StateMN, StateMS, StateMO, StateMT, StateNE, StateNV, StateNH, StateNJ, StateNM, StateNY, StateNC, StateND, StateMP, StateOH, StateOK, StateOR, StatePW, StatePA, StatePR, StateRI, StateSC, StateSD, StateTN, StateTX, StateUT, StateVT, StateVI, StateVA, StateWA, StateWV, StateWI, StateWY:
-		return nil
-	default:
-		return fmt.Errorf("employee: invalid enum value for state field: %q", s)
-	}
-}
 
 // OrderOption defines the ordering options for the Employee queries.
 type OrderOption func(*sql.Selector)

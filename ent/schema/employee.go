@@ -1,8 +1,6 @@
 package schema
 
 import (
-	"wealth-health-backend/pkg/data"
-
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
@@ -14,28 +12,17 @@ type Employee struct {
 }
 
 func (Employee) Fields() []ent.Field {
-	var departmentsValues []string
-	var statesValues []string
-
-	// Parcours de la tranche Departments pour extraire les valeurs
-	for _, i := range data.Departments {
-		departmentsValues = append(departmentsValues, i.Value)
-	}
-
-	for _, i := range data.States {
-		statesValues = append(statesValues, i.Value)
-	}
 
 	return []ent.Field{
-		field.UUID("id", uuid.UUID{}).Immutable(),
+		field.UUID("id", uuid.UUID{}).Default(uuid.New).Immutable(),
 		field.String("firstName").NotEmpty(),
 		field.String("lastName").NotEmpty(),
 		field.Time("dateOfBirth"),
 		field.Time("startDate"),
-		field.Enum("department").Values(departmentsValues...),
+		field.String("department").NotEmpty(),
 		field.String("street").NotEmpty(),
 		field.String("city").NotEmpty(),
-		field.Enum("state").Values(statesValues...),
+		field.String("state").NotEmpty(),
 		field.String("zipCode").NotEmpty(),
 	}
 }

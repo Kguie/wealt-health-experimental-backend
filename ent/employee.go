@@ -27,13 +27,13 @@ type Employee struct {
 	// StartDate holds the value of the "startDate" field.
 	StartDate time.Time `json:"startDate,omitempty"`
 	// Department holds the value of the "department" field.
-	Department employee.Department `json:"department,omitempty"`
+	Department string `json:"department,omitempty"`
 	// Street holds the value of the "street" field.
 	Street string `json:"street,omitempty"`
 	// City holds the value of the "city" field.
 	City string `json:"city,omitempty"`
 	// State holds the value of the "state" field.
-	State employee.State `json:"state,omitempty"`
+	State string `json:"state,omitempty"`
 	// ZipCode holds the value of the "zipCode" field.
 	ZipCode      string `json:"zipCode,omitempty"`
 	selectValues sql.SelectValues
@@ -99,7 +99,7 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field department", values[i])
 			} else if value.Valid {
-				e.Department = employee.Department(value.String)
+				e.Department = value.String
 			}
 		case employee.FieldStreet:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -117,7 +117,7 @@ func (e *Employee) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field state", values[i])
 			} else if value.Valid {
-				e.State = employee.State(value.String)
+				e.State = value.String
 			}
 		case employee.FieldZipCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -174,7 +174,7 @@ func (e *Employee) String() string {
 	builder.WriteString(e.StartDate.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("department=")
-	builder.WriteString(fmt.Sprintf("%v", e.Department))
+	builder.WriteString(e.Department)
 	builder.WriteString(", ")
 	builder.WriteString("street=")
 	builder.WriteString(e.Street)
@@ -183,7 +183,7 @@ func (e *Employee) String() string {
 	builder.WriteString(e.City)
 	builder.WriteString(", ")
 	builder.WriteString("state=")
-	builder.WriteString(fmt.Sprintf("%v", e.State))
+	builder.WriteString(e.State)
 	builder.WriteString(", ")
 	builder.WriteString("zipCode=")
 	builder.WriteString(e.ZipCode)
