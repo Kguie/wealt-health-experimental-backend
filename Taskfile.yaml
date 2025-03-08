@@ -11,6 +11,6 @@ tasks:
 
   test:
     cmds:
-      - go test ./...
+      - go test ./... -v
 
   
